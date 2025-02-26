@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.ChatPlateReader.models.User;
+import com.ChatPlateReader.models.Chat;
 
-public interface UserRepository extends JpaRepository<User, UUID> {
+public interface ChatRepository extends JpaRepository<Chat, UUID> {
 
 }
