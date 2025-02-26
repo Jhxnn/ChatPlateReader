@@ -1,5 +1,5 @@
 package com.ChatPlateReader.dtos;
 
-public class UserDto {
+public record DocumentDto() {
 
 }
