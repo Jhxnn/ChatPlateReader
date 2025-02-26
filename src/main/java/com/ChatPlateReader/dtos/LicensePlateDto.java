@@ -1,5 +1,7 @@
 package com.ChatPlateReader.dtos;
 
-public record LicensePlateDto() {
+import java.util.UUID;
+
+public record LicensePlateDto(String car, UUID userId, UUID messageId) {
 
 }

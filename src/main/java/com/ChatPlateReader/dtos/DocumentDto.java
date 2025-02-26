@@ -1,5 +1,10 @@
 package com.ChatPlateReader.dtos;
 
-public record DocumentDto() {
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import com.ChatPlateReader.models.enums.DocType;
+
+public record DocumentDto(UUID messageId, UUID userId, DocType type, boolean processed, LocalDateTime sendTime) {
 
 }
