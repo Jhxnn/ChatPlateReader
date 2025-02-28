@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
@@ -35,7 +36,9 @@ public class Document {
 	
 	private boolean processed;
 	
-	private LocalDateTime sendDate;
+	
+	
+	
 
 	public UUID getDocumentId() {
 		return documentId;
@@ -69,13 +72,4 @@ public class Document {
 		this.processed = processed;
 	}
 
-	public LocalDateTime getSendDate() {
-		return sendDate;
-	}
-
-	public void setSendDate(LocalDateTime sendDate) {
-		this.sendDate = sendDate;
-	}
-	
-	
 }
