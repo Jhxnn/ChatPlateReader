@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,9 +23,11 @@ public class Message {
 	@Column(name = "id")
 	private UUID messageId;
 	
+	@ManyToOne
 	@JoinColumn(referencedColumnName = "id", name = "chat_id")
 	private Chat chat;
 	
+	@ManyToOne
 	@JoinColumn(referencedColumnName = "id", name="user_id")
 	private User user;
 	
