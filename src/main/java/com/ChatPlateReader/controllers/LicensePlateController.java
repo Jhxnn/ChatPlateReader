@@ -34,6 +34,11 @@ public class LicensePlateController {
     public ResponseEntity<List<LicensePlate>> findAll() {
         return ResponseEntity.status(HttpStatus.OK).body(licensePlateService.findAll());
     }
+    
+    @GetMapping("/message/{id}")
+    public ResponseEntity<List<LicensePlate>> findByMessage(@PathVariable(name = "id")UUID id){
+    	return ResponseEntity.status(HttpStatus.OK).body(licensePlateService.findByMessage(id));
+    }
 
     @PostMapping
     public ResponseEntity<LicensePlate> createLicensePlate(@RequestBody LicensePlateDto licensePlateDto) {

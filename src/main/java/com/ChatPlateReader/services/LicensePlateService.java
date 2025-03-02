@@ -16,6 +16,9 @@ public class LicensePlateService {
 
 	@Autowired
 	LicensePlateRepository licensePlateRepository;
+	
+	@Autowired
+	MessageService messageService;
 
 	public List<LicensePlate> findAll() {
 		return licensePlateRepository.findAll();
@@ -23,6 +26,11 @@ public class LicensePlateService {
 
 	public LicensePlate findById(UUID id) {
 		return licensePlateRepository.findById(id).orElseThrow(() -> new RuntimeException("Cannot be found"));
+	}
+	
+	public List<LicensePlate> findByMessage(UUID messageId){
+		var message = messageService.findById(messageId);
+		return licensePlateRepository.findByMessage(message);
 	}
 
 	public LicensePlate createLicensePlate(LicensePlateDto licensePlateDto) {
