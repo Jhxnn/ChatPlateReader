@@ -34,7 +34,11 @@ public class MessageController {
     public ResponseEntity<List<Message>> findAll() {
         return ResponseEntity.status(HttpStatus.OK).body(messageService.findAll());
     }
-
+    
+    @GetMapping("/chat/{id}")
+    public ResponseEntity<Message> findByChat(@PathVariable(name = "id")UUID id){
+    	return ResponseEntity.status(HttpStatus.OK).body(messageService.findByChat(id));
+    }
     @PostMapping
     public ResponseEntity<Message> createMessage(@RequestBody MessageDto messageDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(messageService.createMessage(messageDto));

@@ -16,15 +16,23 @@ public class MessageService {
 
 	@Autowired
 	MessageRepository messageRepository;
+	
+	@Autowired
+	ChatService chatService;
+	
 
 	public List<Message> findAll() {
 		return messageRepository.findAll();
 		
 	}
 	
-
 	public Message findById(UUID id) {
 		return messageRepository.findById(id).orElseThrow(() -> new RuntimeException("Cannot be found"));
+	}
+	
+	public Message findByChat(UUID chatId) {
+		var chat  = chatService.findById(chatId);
+		return messageRepository.findByChat(chat);
 	}
 
 	public Message createMessage(MessageDto messageDto) {
