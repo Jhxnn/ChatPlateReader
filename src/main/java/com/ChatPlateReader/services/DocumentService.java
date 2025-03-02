@@ -16,6 +16,9 @@ public class DocumentService {
 
 	@Autowired
 	DocumentRepository documentRepository;
+	
+	@Autowired
+	MessageService messageService;
 
 	public List<Document> findAll() {
 		return documentRepository.findAll();
@@ -23,6 +26,11 @@ public class DocumentService {
 
 	public Document findById(UUID id) {
 		return documentRepository.findById(id).orElseThrow(() -> new RuntimeException("Cannot be found"));
+	}
+	
+	public List<Document> findByMessage(UUID idMessage){
+		var message = messageService.findById(idMessage);
+		return documentRepository.findByMessage(message);
 	}
 
 	public Document createDocument(DocumentDto documentDto) {

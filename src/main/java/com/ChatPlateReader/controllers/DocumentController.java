@@ -34,6 +34,12 @@ public class DocumentController {
     public ResponseEntity<List<Document>> findAll() {
         return ResponseEntity.status(HttpStatus.OK).body(documentService.findAll());
     }
+    
+    
+    @GetMapping("/message/{id}")
+    public ResponseEntity<List<Document>> findByMessage(@PathVariable(name = "id")UUID id){
+    	return ResponseEntity.status(HttpStatus.OK).body(documentService.findByMessage(id));
+    }
 
     @PostMapping
     public ResponseEntity<Document> createDocument(@RequestBody DocumentDto documentDto) {

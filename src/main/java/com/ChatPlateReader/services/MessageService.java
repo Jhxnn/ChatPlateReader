@@ -19,7 +19,9 @@ public class MessageService {
 
 	public List<Message> findAll() {
 		return messageRepository.findAll();
+		
 	}
+	
 
 	public Message findById(UUID id) {
 		return messageRepository.findById(id).orElseThrow(() -> new RuntimeException("Cannot be found"));
