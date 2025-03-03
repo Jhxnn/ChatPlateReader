@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ChatPlateReader.dtos.ChatDto;
 import com.ChatPlateReader.models.Chat;
 import com.ChatPlateReader.repositories.ChatRepository;
+import com.ChatPlateReader.repositories.UserRepository;
 
 @Service
 public class ChatService {
@@ -17,6 +18,10 @@ public class ChatService {
 	
 	@Autowired
 	ChatRepository chatRepository;
+	
+	
+	@Autowired
+	UserRepository userRepository;
 	
 
 	
@@ -32,6 +37,11 @@ public class ChatService {
 		var chat = new Chat();
 		BeanUtils.copyProperties(chatDto, chat);
 		return chatRepository.save(chat);
+	}
+	
+	public List<Chat> findByUser(UUID id) {
+		var user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("Cannot be found"));
+		return chatRepository.findByUser(user);
 	}
 	
 	public void deleteChat(UUID id) {
