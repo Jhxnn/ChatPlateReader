@@ -31,6 +31,11 @@ public class ChatController {
 		return ResponseEntity.status(HttpStatus.OK).body(chatService.findById(id));
 	}
 	
+	@GetMapping("/user/{id}")
+	public ResponseEntity<List<Chat>> findByUser(@PathVariable(name = "id")UUID id){
+		return ResponseEntity.status(HttpStatus.OK).body(chatService.findByUser(id));
+	}
+	
 	@GetMapping
 	public ResponseEntity<List<Chat>> findAll(){
 		return ResponseEntity.status(HttpStatus.OK).body(chatService.findAll());
