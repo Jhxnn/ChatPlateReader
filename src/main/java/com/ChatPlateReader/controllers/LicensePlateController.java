@@ -18,6 +18,8 @@ import com.ChatPlateReader.dtos.LicensePlateDto;
 import com.ChatPlateReader.models.LicensePlate;
 import com.ChatPlateReader.services.LicensePlateService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/licensePlate")
 public class LicensePlateController {
@@ -25,26 +27,31 @@ public class LicensePlateController {
     @Autowired
     LicensePlateService licensePlateService;
 
+    @Operation(description = "Busca placa pelo ID")
     @GetMapping("/{id}")
     public ResponseEntity<LicensePlate> findById(@PathVariable(name = "id") UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(licensePlateService.findById(id));
     }
 
+    @Operation(description = "Lista todas as placas")
     @GetMapping
     public ResponseEntity<List<LicensePlate>> findAll() {
         return ResponseEntity.status(HttpStatus.OK).body(licensePlateService.findAll());
     }
     
+    @Operation(description = "Busca placa pelo ID")
     @GetMapping("/message/{id}")
     public ResponseEntity<List<LicensePlate>> findByMessage(@PathVariable(name = "id")UUID id){
     	return ResponseEntity.status(HttpStatus.OK).body(licensePlateService.findByMessage(id));
     }
 
+    @Operation(description = "Cria placa")
     @PostMapping
     public ResponseEntity<LicensePlate> createLicensePlate(@RequestBody LicensePlateDto licensePlateDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(licensePlateService.createLicensePlate(licensePlateDto));
     }
 
+    @Operation(description = "Deleta uma placa")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteLicensePlate(@PathVariable(name = "id") UUID id) {
         licensePlateService.deleteLicensePlate(id);

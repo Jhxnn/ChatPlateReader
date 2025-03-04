@@ -18,6 +18,8 @@ import com.ChatPlateReader.dtos.ChatDto;
 import com.ChatPlateReader.models.Chat;
 import com.ChatPlateReader.services.ChatService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/chat")
 public class ChatController {
@@ -26,24 +28,32 @@ public class ChatController {
 	@Autowired
 	ChatService chatService;
 	
+	
+	@Operation(description = "Busca chat pelo ID")
 	@GetMapping("/{id}")
 	public ResponseEntity<Chat> findById(@PathVariable(name = "id")UUID id){
 		return ResponseEntity.status(HttpStatus.OK).body(chatService.findById(id));
 	}
 	
+	
+	@Operation(description = "Busca chat pelo ID do usuario")
 	@GetMapping("/user/{id}")
 	public ResponseEntity<List<Chat>> findByUser(@PathVariable(name = "id")UUID id){
 		return ResponseEntity.status(HttpStatus.OK).body(chatService.findByUser(id));
 	}
 	
+	@Operation(description = "Lista todos os chats")
 	@GetMapping
 	public ResponseEntity<List<Chat>> findAll(){
 		return ResponseEntity.status(HttpStatus.OK).body(chatService.findAll());
 	}
+	
+	@Operation(description = "Cria um chat")
 	@PostMapping
 	public ResponseEntity<Chat> createChat(@RequestBody ChatDto chatDto){
 		return ResponseEntity.status(HttpStatus.CREATED).body(chatService.createChat(chatDto));
 	}
+	@Operation(description = "Deleta um chat")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Chat> deleteChat(@PathVariable(name = "id")UUID id){
 		chatService.deleteChat(id);

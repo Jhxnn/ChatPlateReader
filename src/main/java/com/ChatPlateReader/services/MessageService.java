@@ -30,7 +30,7 @@ public class MessageService {
 		return messageRepository.findById(id).orElseThrow(() -> new RuntimeException("Cannot be found"));
 	}
 	
-	public Message findByChat(UUID chatId) {
+	public List<Message> findByChat(UUID chatId) {
 		var chat  = chatService.findById(chatId);
 		return messageRepository.findByChat(chat);
 	}

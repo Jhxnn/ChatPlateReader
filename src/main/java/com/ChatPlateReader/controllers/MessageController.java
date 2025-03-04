@@ -18,6 +18,8 @@ import com.ChatPlateReader.dtos.MessageDto;
 import com.ChatPlateReader.models.Message;
 import com.ChatPlateReader.services.MessageService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/message")
 public class MessageController {
@@ -25,25 +27,34 @@ public class MessageController {
     @Autowired
     MessageService messageService;
 
+    
+    @Operation(description = "Busca mensagem pelo ID")
     @GetMapping("/{id}")
     public ResponseEntity<Message> findById(@PathVariable(name = "id") UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(messageService.findById(id));
     }
 
+    @Operation(description = "Lista todas as mensagens")
     @GetMapping
     public ResponseEntity<List<Message>> findAll() {
         return ResponseEntity.status(HttpStatus.OK).body(messageService.findAll());
     }
     
+    
+    @Operation(description = "Busca mensagens pelo ID do chat")
     @GetMapping("/chat/{id}")
-    public ResponseEntity<Message> findByChat(@PathVariable(name = "id")UUID id){
+    public ResponseEntity<List<Message>> findByChat(@PathVariable(name = "id")UUID id){
     	return ResponseEntity.status(HttpStatus.OK).body(messageService.findByChat(id));
     }
+    
+    @Operation(description = "Cria uma mensagem")
     @PostMapping
     public ResponseEntity<Message> createMessage(@RequestBody MessageDto messageDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(messageService.createMessage(messageDto));
     }
 
+    
+    @Operation(description = "Deleta uma mensagem")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMessage(@PathVariable(name = "id") UUID id) {
         messageService.deleteMessage(id);
