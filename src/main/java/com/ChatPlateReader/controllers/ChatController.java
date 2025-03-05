@@ -8,17 +8,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.HtmlUtils;
 
 import com.ChatPlateReader.dtos.ChatDto;
 import com.ChatPlateReader.dtos.ChatInput;
+import com.ChatPlateReader.dtos.ChatInputImage;
 import com.ChatPlateReader.dtos.ChatOutput;
 import com.ChatPlateReader.models.Chat;
 import com.ChatPlateReader.services.ChatService;
@@ -26,8 +26,7 @@ import com.ChatPlateReader.services.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 
-@RestController
-@RequestMapping("/chat")
+@Controller
 public class ChatController {
 
 	
@@ -45,6 +44,14 @@ public class ChatController {
 		var user = userService.findById(input.userId());
 		return new ChatOutput(HtmlUtils.htmlEscape(user.name() + ": " + input.message()));
 	}
+	
+//	@MessageMapping("/send-image")
+//	@SendTo("/topics/chat")
+//	public ChatOutput newMessageImage(ChatInputImage input) {
+//		var user = userService.findById(input.userId());
+//		return new ChatOutput(HtmlUtils.htmlEscape(user.name() + ": " + input.image()));
+//	}
+	
 	
 	@Operation(description = "Busca chat pelo ID")
 	@GetMapping("/{id}")
