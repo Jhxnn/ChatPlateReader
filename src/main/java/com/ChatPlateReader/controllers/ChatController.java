@@ -33,16 +33,11 @@ public class ChatController {
 	@Autowired
 	UserService userService;
 	
-	@Autowired
-    private SimpMessagingTemplate messagingTemplate;
+	
 	
 	
 	@MessageMapping("/chat")
-    public void sendMessage(@Payload ChatDto message) {
-        messagingTemplate.convertAndSendToUser(
-           message.receiver(), "/queue/messages", message
-        );
-    }
+   
 	
 	@Operation(description = "Busca chat pelo ID")
 	@GetMapping("/{id}")

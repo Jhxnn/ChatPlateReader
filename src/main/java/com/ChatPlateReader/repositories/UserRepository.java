@@ -10,4 +10,6 @@ import com.ChatPlateReader.models.User;
 public interface UserRepository extends JpaRepository<User, UUID> {
 
 	UserDetails findByEmail(String email);
+	User findByEmail2(String email);
+
 }
