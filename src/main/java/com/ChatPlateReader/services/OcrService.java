@@ -18,7 +18,7 @@ public class OcrService {
         tesseract.setLanguage("por");
     }
 
-    public List<String> returnText(String docImage) {
+    public List<String> returnTextDocument(String docImage) {
         List<String> lista = new ArrayList<>();
 
         try {
@@ -44,6 +44,10 @@ public class OcrService {
         }
         
         return lista;
+    }
+    
+    public List<String> returnTextLicensePlate(String plateImage){
+    	return null;
     }
 
     public static String extrairDados(String texto, String regex) {

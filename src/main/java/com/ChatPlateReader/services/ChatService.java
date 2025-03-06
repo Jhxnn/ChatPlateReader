@@ -77,8 +77,8 @@ public class ChatService {
 	        
 	        messageRepository.save(message);
 	        
-	        if(chatDto.type() == MsgType.IMAGE) {
-	        	List<String> doc  = ocrService.returnText(chatDto.content());
+	        if(chatDto.type() == MsgType.DOCUMENT) {
+	        	List<String> doc  = ocrService.returnTextDocument(chatDto.content());
 	        	if(doc != null) {
 	        		var document = new Document();
 		        	document.setCnpj(doc.get(0));
@@ -90,7 +90,15 @@ public class ChatService {
 		        	documentRepository.save(document);
 		        	
 	        	}
-	  	
+	        }
+	        
+	        if(chatDto.type() == MsgType.IMAGE) {
+	        	List<String> doc  = ocrService.returnTextLicensePlate(chatDto.content());
+	        	if(doc != null) {
+	        		var liceDocument = new Document();
+		        	
+		        	
+	        	}
 	        }
 
 	    }
