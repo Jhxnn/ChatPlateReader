@@ -17,4 +17,7 @@ public interface ChatRepository extends JpaRepository<Chat, UUID> {
 	@Query("SELECT c FROM Chat c WHERE c.user1 = :user OR c.user2 = :user")
 	List<Chat> findByUser(@Param("user") User user);
 	
+	
+	Chat findByUsers(User sender, User receiver);
+	
 }

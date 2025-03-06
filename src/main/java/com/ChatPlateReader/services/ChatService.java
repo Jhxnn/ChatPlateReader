@@ -47,18 +47,21 @@ public class ChatService {
 	        messagingTemplate.convertAndSendToUser(
 	           chatDto.receiver(), "/queue/messages", chatDto
 	        );
-	        var message = new Message();
-	        message.setContent(chatDto.content());
 	        var sender = userRepository.findByEmail2(chatDto.sender());
 	        var receiver = userRepository.findByEmail2(chatDto.receiver());
+	        var chat = chatRepository.findByUsers(sender, receiver);
+	        if(chat == null) {
+	        	 Chat newChat = new Chat();
+                newChat.setUser1(sender);
+                newChat.setUser2(receiver);
+                newChat.setStatus(StatusChat.OPEN);
+                chatRepository.save(newChat);
+	        }
+	        
+	        var message = new Message();
+	        message.setContent(chatDto.content());
 	        message.setUser(sender);
 	        message.setType(chatDto.type());
-	        
-	        var chat =  new Chat();
-	        chat.setUser1(sender);
-	        chat.setUser2(receiver);
-	        chat.setStatus(StatusChat.OPEN);
-	        chatRepository.save(chat);
 	        message.setChat(chat);
 	        
 	        messageRepository.save(message);
