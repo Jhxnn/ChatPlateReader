@@ -13,6 +13,7 @@ import com.ChatPlateReader.dtos.ChatDto;
 import com.ChatPlateReader.models.Chat;
 import com.ChatPlateReader.models.Document;
 import com.ChatPlateReader.models.Message;
+import com.ChatPlateReader.models.User;
 import com.ChatPlateReader.models.enums.MsgType;
 import com.ChatPlateReader.models.enums.StatusChat;
 import com.ChatPlateReader.repositories.ChatRepository;
@@ -58,20 +59,20 @@ public class ChatService {
 	        messagingTemplate.convertAndSendToUser(
 	           chatDto.receiver(), "/queue/messages", chatDto
 	        );
-	        var sender = userRepository.findByEmail2(chatDto.sender());
-	        var receiver = userRepository.findByEmail2(chatDto.receiver());
-	        var chat = chatRepository.findByUsers(sender, receiver);
+	        var sender = userRepository.findByEmail(chatDto.sender());
+	        var receiver = userRepository.findByEmail(chatDto.receiver());
+	        var chat = chatRepository.findByUsers((User) sender,(User) receiver);
 	        if(chat == null) {
 	        	 Chat newChat = new Chat();
-                newChat.setUser1(sender);
-                newChat.setUser2(receiver);
+                newChat.setUser1((User) sender);
+                newChat.setUser2((User) receiver);
                 newChat.setStatus(StatusChat.OPEN);
                 chatRepository.save(newChat);
 	        }
 	        
 	        var message = new Message();
 	        message.setContent(chatDto.content());
-	        message.setUser(sender);
+	        message.setUser((User) sender);
 	        message.setType(chatDto.type());
 	        message.setChat(chat);
 	        
@@ -85,7 +86,7 @@ public class ChatService {
 		        	document.setCpf(doc.get(1));
 		        	document.setData(doc.get(2));
 		        	document.setMessage(message);
-		        	document.setUser(sender);
+		        	document.setUser((User) sender);
 		        	document.setProcessed(true);
 		        	documentRepository.save(document);
 		        	

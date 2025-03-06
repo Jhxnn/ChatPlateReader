@@ -62,6 +62,7 @@ public class UserService {
 		return token;
 	}
 	
+	
 
 	
 	public UserResponseDto updateUser(UUID id, UserRequestDto userRequestDto) {
