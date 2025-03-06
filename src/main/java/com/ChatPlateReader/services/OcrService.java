@@ -30,12 +30,14 @@ public class OcrService {
             String cpf = extrairDados(textoExtraido, "\\b\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}\\b");
             String cnpj = extrairDados(textoExtraido, "\\b\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2}\\b");
             String data = extrairDados(textoExtraido, "\\b\\d{2}/\\d{2}/\\d{4}\\b");
-            String valor = extrairDados(textoExtraido, "R\\$\\s?\\d{1,3}(\\.\\d{3})*,\\d{2}");
 
             if (!cnpj.isEmpty()) lista.add("CNPJ: " + cnpj);
             if (!cpf.isEmpty()) lista.add("CPF: " + cpf);
-            if (!valor.isEmpty()) lista.add("Valor: " + valor);
             if (!data.isEmpty()) lista.add("Data: " + data);
+            
+            if(lista.size() < 2) {
+            	return null;
+            }
 
         } catch (TesseractException e) {
             System.out.println("Erro ao processar OCR: " + e.getMessage());

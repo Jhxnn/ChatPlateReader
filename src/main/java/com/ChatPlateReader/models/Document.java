@@ -32,6 +32,12 @@ public class Document {
 	@JoinColumn(referencedColumnName = "id", name="user_id")
 	private User user;
 	
+	private String cnpj;
+	
+	private String cpf;
+	
+	private String data;
+	
 	private DocType type;
 	
 	private boolean processed;
@@ -39,6 +45,38 @@ public class Document {
 	
 	
 	
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public String getCnpj() {
+		return cnpj;
+	}
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public String getData() {
+		return data;
+	}
+
+	public void setData(String data) {
+		this.data = data;
+	}
 
 	public UUID getDocumentId() {
 		return documentId;

@@ -11,9 +11,12 @@ import org.springframework.stereotype.Service;
 
 import com.ChatPlateReader.dtos.ChatDto;
 import com.ChatPlateReader.models.Chat;
+import com.ChatPlateReader.models.Document;
 import com.ChatPlateReader.models.Message;
+import com.ChatPlateReader.models.enums.MsgType;
 import com.ChatPlateReader.models.enums.StatusChat;
 import com.ChatPlateReader.repositories.ChatRepository;
+import com.ChatPlateReader.repositories.DocumentRepository;
 import com.ChatPlateReader.repositories.MessageRepository;
 import com.ChatPlateReader.repositories.UserRepository;
 
@@ -33,6 +36,12 @@ public class ChatService {
 	
 	@Autowired
     private SimpMessagingTemplate messagingTemplate;
+	
+	@Autowired
+	DocumentRepository documentRepository;
+	
+	@Autowired
+	OcrService ocrService;
 
 	
 	public List<Chat> findAll() {
@@ -42,6 +51,8 @@ public class ChatService {
 	public Chat findById(UUID id) {
 		return chatRepository.findById(id).orElseThrow(()-> new RuntimeException("Cannot be found"));
 	}
+	
+	
 	
 	 public void sendMessage(@Payload ChatDto chatDto) {
 	        messagingTemplate.convertAndSendToUser(
@@ -66,7 +77,22 @@ public class ChatService {
 	        
 	        messageRepository.save(message);
 	        
-	        
+	        if(chatDto.type() == MsgType.IMAGE) {
+	        	List<String> doc  = ocrService.returnText(chatDto.content());
+	        	if(doc != null) {
+	        		var document = new Document();
+		        	document.setCnpj(doc.get(0));
+		        	document.setCpf(doc.get(1));
+		        	document.setData(doc.get(2));
+		        	document.setMessage(message);
+		        	document.setUser(sender);
+		        	document.setProcessed(true);
+		        	documentRepository.save(document);
+		        	
+	        	}
+	  	
+	        }
+
 	    }
 	
 	public Chat createChat(ChatDto chatDto) {
