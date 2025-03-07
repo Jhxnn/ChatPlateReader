@@ -8,7 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ChatPlateReader.dtos.MessageDto;
+import com.ChatPlateReader.models.Document;
 import com.ChatPlateReader.models.Message;
+import com.ChatPlateReader.models.User;
+import com.ChatPlateReader.models.enums.MsgType;
+import com.ChatPlateReader.repositories.DocumentRepository;
 import com.ChatPlateReader.repositories.MessageRepository;
 
 @Service
@@ -19,6 +23,12 @@ public class MessageService {
 	
 	@Autowired
 	ChatService chatService;
+	
+	@Autowired
+	DocumentRepository documentRepository;
+	
+	@Autowired
+	OcrService ocrService;
 	
 
 	public List<Message> findAll() {
@@ -33,6 +43,30 @@ public class MessageService {
 	public List<Message> findByChat(UUID chatId) {
 		var chat  = chatService.findById(chatId);
 		return messageRepository.findByChat(chat);
+	}
+	
+	public void ocrTest(MessageDto messageDto){
+		if(messageDto.type() == MsgType.DOCUMENT) {
+        	List<String> doc  = ocrService.returnTextDocument(messageDto.content());
+        	if(doc != null) {
+        		var document = new Document();
+	        	document.setCnpj(doc.get(0));
+	        	document.setCpf(doc.get(1));
+	        	document.setData(doc.get(2));
+	        	document.setProcessed(true);
+	        	documentRepository.save(document);
+	        	
+        	}
+        }
+        
+        if(messageDto.type() == MsgType.IMAGE) {
+        	List<String> doc  = ocrService.returnTextLicensePlate(messageDto.content());
+        	if(doc != null) {
+        		var liceDocument = new Document();
+	        	
+	        	
+        	}
+        }
 	}
 
 	public Message createMessage(MessageDto messageDto) {
