@@ -39,6 +39,13 @@ public class MessageController {
     public ResponseEntity<List<Message>> findAll() {
         return ResponseEntity.status(HttpStatus.OK).body(messageService.findAll());
     }
+
+
+    @Operation(description = "Manda mensagem")
+    @GetMapping("/send")
+    public ResponseEntity<List<String>> messageTest(@RequestBody MessageDto messageDto){
+        return ResponseEntity.status(HttpStatus.OK).body(messageService.ocrTest(messageDto));
+    }
     
     
     @Operation(description = "Busca mensagens pelo ID do chat")

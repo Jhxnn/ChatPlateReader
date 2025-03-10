@@ -45,7 +45,7 @@ public class MessageService {
 		return messageRepository.findByChat(chat);
 	}
 	
-	public void ocrTest(MessageDto messageDto){
+	public List<String> ocrTest(MessageDto messageDto){
 		if(messageDto.type() == MsgType.DOCUMENT) {
         	List<String> doc  = ocrService.returnTextDocument(messageDto.content());
         	if(doc != null) {
@@ -55,8 +55,9 @@ public class MessageService {
 	        	document.setData(doc.get(2));
 	        	document.setProcessed(true);
 	        	documentRepository.save(document);
-	        	
+	        	return doc;
         	}
+
         }
         
         if(messageDto.type() == MsgType.IMAGE) {
@@ -64,9 +65,10 @@ public class MessageService {
         	if(doc != null) {
         		var liceDocument = new Document();
 	        	
-	        	
+	        	return null;
         	}
         }
+		return null;
 	}
 
 	public Message createMessage(MessageDto messageDto) {
