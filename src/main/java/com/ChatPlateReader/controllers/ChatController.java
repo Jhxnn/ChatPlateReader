@@ -44,6 +44,10 @@ public class ChatController {
 	}
 	
 	
+	
+
+	
+	
 	@Operation(description = "Busca chat pelo ID do usuario")
 	@GetMapping("/users/{id}")
 	public ResponseEntity<List<Chat>> findByUser(@PathVariable(name = "id")UUID id){
@@ -51,18 +55,18 @@ public class ChatController {
 	}
 	
 	@Operation(description = "Lista todos os chats")
-	@GetMapping
+	@GetMapping("/chat")
 	public ResponseEntity<List<Chat>> findAll(){
 		return ResponseEntity.status(HttpStatus.OK).body(chatService.findAll());
 	}
 	
 	@Operation(description = "Cria um chat")
-	@PostMapping
+	@PostMapping("/chat")
 	public ResponseEntity<Chat> createChat(@RequestBody ChatDto chatDto){
 		return ResponseEntity.status(HttpStatus.CREATED).body(chatService.createChat(chatDto));
 	}
 	@Operation(description = "Deleta um chat")
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/chat/{id}")
 	public ResponseEntity<Chat> deleteChat(@PathVariable(name = "id")UUID id){
 		chatService.deleteChat(id);
 		return ResponseEntity.noContent().build();

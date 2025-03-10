@@ -47,6 +47,8 @@ public class MessageController {
     	return ResponseEntity.status(HttpStatus.OK).body(messageService.findByChat(id));
     }
     
+
+    
     @Operation(description = "Cria uma mensagem")
     @PostMapping
     public ResponseEntity<Message> createMessage(@RequestBody MessageDto messageDto) {
