@@ -47,7 +47,7 @@ public class MessageService {
 	
 	public List<String> ocrTest(MessageDto messageDto){
 		if(messageDto.type() == MsgType.DOCUMENT) {
-        	List<String> doc  = ocrService.returnTextDocument(messageDto.content());
+        	List<String> doc  = ocrService.returnTextDocument(messageDto.image());
         	if(doc != null) {
         		var document = new Document();
 	        	document.setCnpj(doc.get(0));
@@ -61,7 +61,7 @@ public class MessageService {
         }
         
         if(messageDto.type() == MsgType.IMAGE) {
-        	List<String> doc  = ocrService.returnTextLicensePlate(messageDto.content());
+        	List<String> doc  = ocrService.returnTextLicensePlate(messageDto.image());
         	if(doc != null) {
         		var liceDocument = new Document();
 	        	
