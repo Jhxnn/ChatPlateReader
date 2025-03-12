@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 import com.ChatPlateReader.dtos.MessageDataDto;
+import io.swagger.v3.oas.annotations.media.Content;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -40,15 +42,15 @@ public class MessageController {
 
 
     @Operation(description = "Manda mensagem")
-    @PostMapping(value = "/send/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/send", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<List<String>> messageTest(
-            @PathVariable(name = "userId")UUID userId,  // Pega o UUID da URL
-            @RequestPart("data") MessageDataDto data, // JSON
-            @RequestPart("image") MultipartFile image // Arquivo
-    ) {
-        MessageDto messageDto = new MessageDto(userId, data.content(), image, data.type());
+            @RequestPart(value = "data", required = true) @Valid @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")) MessageDataDto data,
+            @RequestPart(value = "image", required = true) MultipartFile image) {
+
+        MessageDto messageDto = new MessageDto(data.content(), image, data.type());
         return ResponseEntity.status(HttpStatus.OK).body(messageService.ocrTest(messageDto));
     }
+
 
 
     @Operation(description = "Busca mensagens pelo ID do chat")
