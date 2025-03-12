@@ -82,5 +82,6 @@ public class OcrService {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(texto);
         return matcher.find() ? matcher.group() : "";
+
     }
 }

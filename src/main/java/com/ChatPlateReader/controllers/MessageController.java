@@ -3,22 +3,19 @@ package com.ChatPlateReader.controllers;
 import java.util.List;
 import java.util.UUID;
 
+import com.ChatPlateReader.dtos.MessageDataDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ChatPlateReader.dtos.MessageDto;
 import com.ChatPlateReader.models.Message;
 import com.ChatPlateReader.services.MessageService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/message")
@@ -41,13 +38,19 @@ public class MessageController {
     }
 
 
+
     @Operation(description = "Manda mensagem")
-    @GetMapping("/send")
-    public ResponseEntity<List<String>> messageTest(@RequestBody MessageDto messageDto){
+    @PostMapping(value = "/send/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<List<String>> messageTest(
+            @PathVariable(name = "userId")UUID userId,  // Pega o UUID da URL
+            @RequestPart("data") MessageDataDto data, // JSON
+            @RequestPart("image") MultipartFile image // Arquivo
+    ) {
+        MessageDto messageDto = new MessageDto(userId, data.content(), image, data.type());
         return ResponseEntity.status(HttpStatus.OK).body(messageService.ocrTest(messageDto));
     }
-    
-    
+
+
     @Operation(description = "Busca mensagens pelo ID do chat")
     @GetMapping("/chat/{id}")
     public ResponseEntity<List<Message>> findByChat(@PathVariable(name = "id")UUID id){
